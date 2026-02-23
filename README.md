@@ -63,7 +63,7 @@ Axée sur l’expression orale, Fluently simplifie la mise en relation, la parti
 - **Frontend Lead – Milan** : UI, navigation, intégration API  
 - **Backend Lead – Fresnel** : DB schema, APIs, auth  
 - **Backend Feature – Matching** : recommandations, scoring  
-- **Admin Dashboard – Adrien** : modération & analytics  
+- **Admin Dashboard / Cybersécurité – Adrien** : modération & analytics  
 - **DevOps / QA – Rayan** : CI/CD, tests, monitoring  
 
 ---
@@ -106,5 +106,6 @@ Tests fonctionnels, sécurité, performance et déploiement staging.
 - **GitHub** : repository initialisé + tickets P1/P2/P3  
 - **Discord** : canaux Frontend / Backend / Admin / QA  
 - **Documents** : PBS / WBS / guides de spécifications
+
 
 
