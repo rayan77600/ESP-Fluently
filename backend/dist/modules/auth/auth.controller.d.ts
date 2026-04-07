@@ -6,23 +6,11 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(registerDto: RegisterDto): Promise<{
         access_token: string;
-        user: {
-            id: number;
-            email: string;
-            firstName: string;
-            lastName: string;
-            role: import("../../entities/user.entity").UserRole;
-        };
+        user: any;
     }>;
     login(loginDto: LoginDto): Promise<{
         access_token: string;
-        user: {
-            id: number;
-            email: string;
-            firstName: string;
-            lastName: string;
-            role: import("../../entities/user.entity").UserRole;
-        };
+        user: any;
     }>;
-    getProfile(req: any): any;
+    getMe(req: any): Promise<any>;
 }

@@ -7,10 +7,10 @@ export declare enum ParticipationStatus {
 }
 export declare class Participation {
     id: number;
-    user: User;
     userId: number;
-    event: Event;
     eventId: number;
     status: ParticipationStatus;
     joinedAt: Date;
+    user: User;
+    event: Event;
 }

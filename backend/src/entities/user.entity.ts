@@ -1,4 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
+import { Event } from './event.entity';
+import { Participation } from './participation.entity';
+import { UserLanguage } from './user-language.entity';
+import { Message } from './message.entity';
+import { Photo } from './photo.entity';
+import { Feedback } from './feedback.entity';
+import { Notification } from './notification.entity';
 
 export enum UserRole {
   USER = 'user',
@@ -9,48 +25,74 @@ export enum UserRole {
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number;
 
   @Column({ unique: true })
+  @ApiProperty()
   email: string;
 
   @Column()
+  @Exclude() // ne jamais retourner le mot de passe dans les réponses API
   password: string;
 
-  @Column()
+  @Column({ name: 'first_name' })
+  @ApiProperty()
   firstName: string;
 
-  @Column()
+  @Column({ name: 'last_name' })
+  @ApiProperty()
   lastName: string;
 
   @Column({ nullable: true })
+  @ApiProperty({ required: false })
   bio: string;
 
   @Column({ nullable: true })
+  @ApiProperty({ required: false })
   city: string;
 
-  @Column({ nullable: true })
+  @Column({ name: 'birth_date', type: 'date', nullable: true })
+  @ApiProperty({ required: false })
   birthDate: Date;
 
-  @Column({ nullable: true })
+  @Column({ name: 'profile_picture', nullable: true })
+  @ApiProperty({ required: false })
   profilePicture: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER,
+  })
+  @ApiProperty({ enum: UserRole })
   role: UserRole;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  // Relations (on les ajoutera plus tard)
-  // events: Event[];
-  // participations: Participation[];
-  // userLanguages: UserLanguage[];
-  // sentMessages: Message[];
-  // photos: Photo[];
-  // feedbacks: Feedback[];
-  // notifications: Notification[];
-  // aiSessions: AIConversationSession[];
+  // Relations
+  @OneToMany(() => Event, (event) => event.host)
+  events: Event[];
+
+  @OneToMany(() => Participation, (participation) => participation.user)
+  participations: Participation[];
+
+  @OneToMany(() => UserLanguage, (ul) => ul.user)
+  userLanguages: UserLanguage[];
+
+  @OneToMany(() => Message, (message) => message.author)
+  messages: Message[];
+
+  @OneToMany(() => Photo, (photo) => photo.uploadedBy)
+  photos: Photo[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.author)
+  feedbacks: Feedback[];
+
+  @OneToMany(() => Notification, (notification) => notification.recipient)
+  notifications: Notification[];
 }
