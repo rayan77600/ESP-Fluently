@@ -11,10 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Language = void 0;
 const typeorm_1 = require("typeorm");
+const swagger_1 = require("@nestjs/swagger");
 let Language = class Language {
     id;
     name;
     code;
+    userLanguages;
+    eventLanguages;
 };
 exports.Language = Language;
 __decorate([
@@ -23,12 +26,22 @@ __decorate([
 ], Language.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ unique: true }),
+    (0, swagger_1.ApiProperty)({ example: 'Français' }),
     __metadata("design:type", String)
 ], Language.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({ unique: true, length: 5 }),
+    (0, swagger_1.ApiProperty)({ example: 'fr' }),
     __metadata("design:type", String)
 ], Language.prototype, "code", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)('UserLanguage', 'language'),
+    __metadata("design:type", Object)
+], Language.prototype, "userLanguages", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)('EventLanguage', 'language'),
+    __metadata("design:type", Object)
+], Language.prototype, "eventLanguages", void 0);
 exports.Language = Language = __decorate([
     (0, typeorm_1.Entity)('languages')
 ], Language);

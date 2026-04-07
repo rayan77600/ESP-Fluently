@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 import { Event } from './event.entity';
 
@@ -10,18 +17,21 @@ export class Photo {
   @Column()
   url: string;
 
-  @ManyToOne(() => Event, { onDelete: 'CASCADE' })
-  event: Event;
-
-  @Column()
+  @Column({ name: 'event_id' })
   eventId: number;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  user: User;
+  @Column({ name: 'uploaded_by_id' })
+  uploadedById: number;
 
-  @Column()
-  userId: number;
-
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'uploaded_at' })
   uploadedAt: Date;
+
+  // Relations
+  @ManyToOne(() => Event, (event) => event.photos)
+  @JoinColumn({ name: 'event_id' })
+  event: Event;
+
+  @ManyToOne(() => User, (user) => user.photos)
+  @JoinColumn({ name: 'uploaded_by_id' })
+  uploadedBy: User;
 }

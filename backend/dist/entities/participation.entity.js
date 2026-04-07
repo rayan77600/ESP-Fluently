@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Participation = exports.ParticipationStatus = void 0;
 const typeorm_1 = require("typeorm");
+const swagger_1 = require("@nestjs/swagger");
 const user_entity_1 = require("./user.entity");
 const event_entity_1 = require("./event.entity");
 var ParticipationStatus;
@@ -21,12 +22,12 @@ var ParticipationStatus;
 })(ParticipationStatus || (exports.ParticipationStatus = ParticipationStatus = {}));
 let Participation = class Participation {
     id;
-    user;
     userId;
-    event;
     eventId;
     status;
     joinedAt;
+    user;
+    event;
 };
 exports.Participation = Participation;
 __decorate([
@@ -34,29 +35,36 @@ __decorate([
     __metadata("design:type", Number)
 ], Participation.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], Participation.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'user_id' }),
     __metadata("design:type", Number)
 ], Participation.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, { onDelete: 'CASCADE' }),
-    __metadata("design:type", event_entity_1.Event)
-], Participation.prototype, "event", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'event_id' }),
     __metadata("design:type", Number)
 ], Participation.prototype, "eventId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'enum', enum: ParticipationStatus, default: ParticipationStatus.PENDING }),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ParticipationStatus,
+        default: ParticipationStatus.PENDING,
+    }),
+    (0, swagger_1.ApiProperty)({ enum: ParticipationStatus }),
     __metadata("design:type", String)
 ], Participation.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.CreateDateColumn)({ name: 'joined_at' }),
     __metadata("design:type", Date)
 ], Participation.prototype, "joinedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.participations),
+    (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
+    __metadata("design:type", user_entity_1.User)
+], Participation.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, (event) => event.participations),
+    (0, typeorm_1.JoinColumn)({ name: 'event_id' }),
+    __metadata("design:type", event_entity_1.Event)
+], Participation.prototype, "event", void 0);
 exports.Participation = Participation = __decorate([
     (0, typeorm_1.Entity)('participations')
 ], Participation);

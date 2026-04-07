@@ -10,42 +10,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterDto = void 0;
-const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 const user_entity_1 = require("../../../entities/user.entity");
 class RegisterDto {
     email;
     password;
     firstName;
     lastName;
-    role = user_entity_1.UserRole.USER;
+    role;
 }
 exports.RegisterDto = RegisterDto;
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsEmail)(),
+    (0, swagger_1.ApiProperty)({ example: 'jean.dupont@email.com' }),
+    (0, class_validator_1.IsEmail)({}, { message: 'Email invalide' }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "email", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(6),
+    (0, swagger_1.ApiProperty)({ example: 'MotDePasse123!' }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(6, { message: 'Le mot de passe doit faire au moins 6 caractères' }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "password", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ example: 'Jean' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "firstName", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ example: 'Dupont' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "lastName", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ enum: user_entity_1.UserRole, default: user_entity_1.UserRole.USER }),
+    (0, swagger_1.ApiProperty)({ enum: user_entity_1.UserRole, required: false, default: user_entity_1.UserRole.USER }),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(user_entity_1.UserRole),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "role", void 0);

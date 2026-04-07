@@ -11,9 +11,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private authService: AuthService,
   ) {
     const jwtSecret = configService.get<string>('JWT_SECRET');
-
     if (!jwtSecret) {
-      throw new Error('JWT_SECRET is not defined in .env file');
+      throw new Error('JWT_SECRET non défini dans le fichier .env');
     }
 
     super({
@@ -28,6 +27,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('Utilisateur non trouvé');
     }
-    return user;
+    return user; // Cet objet sera disponible dans req.user
   }
 }

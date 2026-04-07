@@ -6,10 +6,10 @@ export declare enum NotificationType {
 }
 export declare class Notification {
     id: number;
-    user: User;
-    userId: number;
+    recipientId: number;
     message: string;
     type: NotificationType;
     isRead: boolean;
     createdAt: Date;
+    recipient: User;
 }
