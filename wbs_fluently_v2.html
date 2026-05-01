@@ -1,0 +1,302 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wbs{font-family:var(--font-sans);padding:32px 24px;display:flex;flex-direction:column;gap:0;min-width:900px}
+.root-box{background:#EEEDFE;border:1.5px solid #534AB7;border-radius:12px;padding:14px 32px;text-align:center;align-self:center;margin-bottom:0}
+.root-box .label{font-size:16px;font-weight:500;color:#3C3489}
+.root-box .sub{font-size:12px;color:#534AB7;margin-top:2px}
+
+.connector-root{display:flex;justify-content:center}
+.connector-root .v-line{width:2px;height:28px;background:var(--color-border-secondary)}
+
+.domains-row{display:flex;gap:16px;align-items:flex-start;justify-content:center}
+
+.domain-col{display:flex;flex-direction:column;align-items:center;gap:0;flex:1;min-width:0}
+
+.domain-box{border-radius:10px;padding:12px 16px;text-align:center;width:100%;border:1.5px solid transparent}
+.domain-box .num{font-size:11px;font-weight:500;opacity:0.7;margin-bottom:2px}
+.domain-box .label{font-size:14px;font-weight:500;line-height:1.3}
+
+.d1 .domain-box{background:#E1F5EE;border-color:#0F6E56;color:#085041}
+.d2 .domain-box{background:#FBEAF0;border-color:#993556;color:#72243E}
+.d3 .domain-box{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.d4 .domain-box{background:#FAEEDA;border-color:#854F0B;color:#633806}
+.d5 .domain-box{background:#FAECE7;border-color:#993C1D;color:#712B13}
+.d6 .domain-box{background:#EAF3DE;border-color:#3B6D11;color:#27500A}
+
+.v-down{width:2px;height:20px;align-self:center}
+.d1 .v-down{background:#0F6E56}
+.d2 .v-down{background:#993556}
+.d3 .v-down{background:#185FA5}
+.d4 .v-down{background:#854F0B}
+.d5 .v-down{background:#993C1D}
+.d6 .v-down{background:#3B6D11}
+
+.subs-col{display:flex;flex-direction:column;gap:10px;width:100%}
+
+.sub-group{display:flex;flex-direction:column;align-items:stretch;gap:0}
+
+.sub-box{border-radius:8px;padding:9px 12px;border:1px solid transparent;width:100%}
+.sub-box .num{font-size:10px;font-weight:500;opacity:0.65;margin-bottom:1px}
+.sub-box .label{font-size:12px;font-weight:500;line-height:1.3}
+
+.d1 .sub-box{background:#9FE1CB;border-color:#0F6E56;color:#04342C}
+.d2 .sub-box{background:#F4C0D1;border-color:#993556;color:#4B1528}
+.d3 .sub-box{background:#B5D4F4;border-color:#185FA5;color:#042C53}
+.d4 .sub-box{background:#FAC775;border-color:#854F0B;color:#412402}
+.d5 .sub-box{background:#F5C4B3;border-color:#993C1D;color:#4A1B0C}
+.d6 .sub-box{background:#C0DD97;border-color:#3B6D11;color:#173404}
+
+.v-sub{width:2px;height:10px;align-self:center}
+.d1 .v-sub{background:#1D9E75}
+.d2 .v-sub{background:#D4537E}
+.d3 .v-sub{background:#378ADD}
+.d4 .v-sub{background:#BA7517}
+.d5 .v-sub{background:#D85A30}
+.d6 .v-sub{background:#639922}
+
+.leaves{display:flex;flex-direction:column;gap:4px;padding:0 4px}
+
+.leaf{border-radius:6px;padding:7px 10px;border:1px solid transparent}
+.leaf .num{font-size:10px;opacity:0.6;margin-bottom:1px}
+.leaf .label{font-size:11px;line-height:1.4;color:var(--color-text-primary)}
+
+.d1 .leaf{background:var(--color-background-secondary);border-color:#9FE1CB}
+.d2 .leaf{background:var(--color-background-secondary);border-color:#F4C0D1}
+.d3 .leaf{background:var(--color-background-secondary);border-color:#B5D4F4}
+.d4 .leaf{background:var(--color-background-secondary);border-color:#FAC775}
+.d5 .leaf{background:var(--color-background-secondary);border-color:#F5C4B3}
+.d6 .leaf{background:var(--color-background-secondary);border-color:#C0DD97}
+
+.connector-domains{display:flex;justify-content:center;margin-bottom:0}
+.h-bar-wrap{display:flex;align-items:flex-start;width:100%;position:relative}
+</style>
+
+<div class="wbs">
+  <div class="root-box">
+    <div class="label">Fluently — Projet</div>
+    <div class="sub">Work Breakdown Structure</div>
+  </div>
+  <div class="connector-root"><div class="v-line"></div></div>
+
+  <div class="domains-row">
+
+    <!-- D1 Gestion de projet -->
+    <div class="domain-col d1">
+      <div class="domain-box">
+        <div class="num">1</div>
+        <div class="label">Gestion de projet</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">1.1</div><div class="label">Planning</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">1.1.1</div><div class="label">Périmètre défini & validé</div></div>
+            <div class="leaf"><div class="num">1.1.2</div><div class="label">Timeline & jalons établis</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">1.2</div><div class="label">Management</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">1.2.1</div><div class="label">Sprints planifiés</div></div>
+            <div class="leaf"><div class="num">1.2.2</div><div class="label">Revues d'avancement réalisées</div></div>
+            <div class="leaf"><div class="num">1.2.3</div><div class="label">Coordination QA effective</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D2 Branding & Design -->
+    <div class="domain-col d2">
+      <div class="domain-box">
+        <div class="num">2</div>
+        <div class="label">Branding & Design</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">2.1</div><div class="label">UI/UX Design</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">2.1.1</div><div class="label">Logo & charte graphique validés</div></div>
+            <div class="leaf"><div class="num">2.1.2</div><div class="label">Wireframes MVP approuvés</div></div>
+            <div class="leaf"><div class="num">2.1.3</div><div class="label">Prototypes interactifs livrés</div></div>
+            <div class="leaf"><div class="num">2.1.4</div><div class="label">User Journey Mapping complet</div></div>
+            <div class="leaf"><div class="num">2.1.5</div><div class="label">Design UI final (web + mobile)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D3 Frontend -->
+    <div class="domain-col d3">
+      <div class="domain-box">
+        <div class="num">3</div>
+        <div class="label">Frontend Development</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">3.1</div><div class="label">Foundation</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">3.1.1</div><div class="label">Framework configuré & design system</div></div>
+            <div class="leaf"><div class="num">3.1.2</div><div class="label">Système de navigation opérationnel</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">3.2</div><div class="label">Core Screens</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">3.2.1</div><div class="label">Inscription & onboarding</div></div>
+            <div class="leaf"><div class="num">3.2.2</div><div class="label">Profil + langues + certifications</div></div>
+            <div class="leaf"><div class="num">3.2.3</div><div class="label">Event Discovery (liste, filtres)</div></div>
+            <div class="leaf"><div class="num">3.2.4</div><div class="label">Détails événement</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">3.3</div><div class="label">Event Management UI</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">3.3.1</div><div class="label">Formulaire création d'événement</div></div>
+            <div class="leaf"><div class="num">3.3.2</div><div class="label">Modification d'événement</div></div>
+            <div class="leaf"><div class="num">3.3.3</div><div class="label">Dashboard organisateur</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">3.4</div><div class="label">Interaction Features</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">3.4.1</div><div class="label">Rejoindre un événement</div></div>
+            <div class="leaf"><div class="num">3.4.2</div><div class="label">Système de Check-In (QR code)</div></div>
+            <div class="leaf"><div class="num">3.4.3</div><div class="label">Upload photos + galerie</div></div>
+            <div class="leaf"><div class="num">3.4.4</div><div class="label">Notifications UI</div></div>
+            <div class="leaf"><div class="num">3.4.5</div><div class="label">Chat de groupe par événement</div></div>
+            <div class="leaf"><div class="num">3.4.6</div><div class="label">Badges & gamification</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D4 Backend -->
+    <div class="domain-col d4">
+      <div class="domain-box">
+        <div class="num">4</div>
+        <div class="label">Backend Development</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">4.1</div><div class="label">Infrastructure</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">4.1.1</div><div class="label">Serveur configuré (NestJS + Docker)</div></div>
+            <div class="leaf"><div class="num">4.1.2</div><div class="label">Schéma DB + migrations (TypeORM/PG)</div></div>
+            <div class="leaf"><div class="num">4.1.3</div><div class="label">Service Auth JWT opérationnel</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">4.2</div><div class="label">Core APIs</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">4.2.1</div><div class="label">API Utilisateur (CRUD profil)</div></div>
+            <div class="leaf"><div class="num">4.2.2</div><div class="label">API Événement (CRUD)</div></div>
+            <div class="leaf"><div class="num">4.2.3</div><div class="label">API Participation</div></div>
+            <div class="leaf"><div class="num">4.2.4</div><div class="label">API Photos & stockage médias</div></div>
+            <div class="leaf"><div class="num">4.2.5</div><div class="label">Documentation API (Swagger)</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">4.3</div><div class="label">Recommandations & Matching</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">4.3.1</div><div class="label">Suggestions d'events (ville + langue + date)</div></div>
+            <div class="leaf"><div class="num">4.3.2</div><div class="label">Score compatibilité utilisateurs</div></div>
+            <div class="leaf"><div class="num">4.3.3</div><div class="label">Suggestion créneaux horaires</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">4.4</div><div class="label">Intégration & Sécurité</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">4.4.1</div><div class="label">Notifications e-mail & push</div></div>
+            <div class="leaf"><div class="num">4.4.2</div><div class="label">Chiffrement & durcissement</div></div>
+            <div class="leaf"><div class="num">4.4.3</div><div class="label">Conformité RGPD</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D5 Admin Dashboard -->
+    <div class="domain-col d5">
+      <div class="domain-box">
+        <div class="num">5</div>
+        <div class="label">Admin Dashboard</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">5.1</div><div class="label">Interface Admin</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">5.1.1</div><div class="label">Gestion des utilisateurs (vue, bloc, signalement)</div></div>
+            <div class="leaf"><div class="num">5.1.2</div><div class="label">Modération des événements</div></div>
+            <div class="leaf"><div class="num">5.1.3</div><div class="label">Tableaux d'analytiques</div></div>
+            <div class="leaf"><div class="num">5.1.4</div><div class="label">Logs & audit trail</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D6 QA & Testing -->
+    <div class="domain-col d6">
+      <div class="domain-box">
+        <div class="num">6</div>
+        <div class="label">QA & Testing</div>
+      </div>
+      <div class="v-down"></div>
+      <div class="subs-col">
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">6.1</div><div class="label">Tests fonctionnels</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">6.1.1</div><div class="label">Parcours complet (signup → join → feedback)</div></div>
+            <div class="leaf"><div class="num">6.1.2</div><div class="label">Tests formulaires & filtres</div></div>
+            <div class="leaf"><div class="num">6.1.3</div><div class="label">Tests participation & check-in</div></div>
+            <div class="leaf"><div class="num">6.1.4</div><div class="label">Tests notifications & médias</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">6.2</div><div class="label">Tests sécurité</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">6.2.1</div><div class="label">Auth & permissions</div></div>
+            <div class="leaf"><div class="num">6.2.2</div><div class="label">Injections SQL / XSS / CSRF</div></div>
+            <div class="leaf"><div class="num">6.2.3</div><div class="label">Chiffrement & RGPD</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">6.3</div><div class="label">Tests performance</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">6.3.1</div><div class="label">Tests de charge & temps de réponse API</div></div>
+            <div class="leaf"><div class="num">6.3.2</div><div class="label">Optimisation front-end & recommandations</div></div>
+          </div>
+        </div>
+        <div class="sub-group">
+          <div class="sub-box"><div class="num">6.4</div><div class="label">Tests bêta & release</div></div>
+          <div class="v-sub"></div>
+          <div class="leaves">
+            <div class="leaf"><div class="num">6.4.1</div><div class="label">Déploiement préproduction</div></div>
+            <div class="leaf"><div class="num">6.4.2</div><div class="label">Analyse feedbacks & corrections</div></div>
+            <div class="leaf"><div class="num">6.4.3</div><div class="label">Checklist release + lancement alpha</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
