@@ -3,9 +3,9 @@ import { Event } from './event.entity';
 export declare class Photo {
     id: number;
     url: string;
-    event: Event;
     eventId: number;
-    user: User;
-    userId: number;
+    uploadedById: number;
     uploadedAt: Date;
+    event: Event;
+    uploadedBy: User;
 }

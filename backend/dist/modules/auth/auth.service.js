@@ -61,7 +61,9 @@ let AuthService = class AuthService {
     }
     async register(registerDto) {
         const { email, password, firstName, lastName, role } = registerDto;
-        const existingUser = await this.usersRepository.findOne({ where: { email } });
+        const existingUser = await this.usersRepository.findOne({
+            where: { email },
+        });
         if (existingUser) {
             throw new common_1.ConflictException('Un utilisateur avec cet email existe déjà');
         }
@@ -73,8 +75,12 @@ let AuthService = class AuthService {
             lastName,
             role: role || user_entity_1.UserRole.USER,
         });
-        await this.usersRepository.save(user);
-        return this.login({ email, password });
+        const savedUser = await this.usersRepository.save(user);
+        const token = this.generateToken(savedUser);
+        return {
+            access_token: token,
+            user: this.sanitizeUser(savedUser),
+        };
     }
     async login(loginDto) {
         const { email, password } = loginDto;
@@ -82,25 +88,35 @@ let AuthService = class AuthService {
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw new common_1.UnauthorizedException('Email ou mot de passe incorrect');
         }
-        const payload = {
-            sub: user.id,
-            email: user.email,
-            role: user.role
-        };
-        const token = this.jwtService.sign(payload);
+        const token = this.generateToken(user);
         return {
             access_token: token,
-            user: {
-                id: user.id,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                role: user.role,
-            },
+            user: this.sanitizeUser(user),
         };
     }
     async validateUser(userId) {
         return this.usersRepository.findOne({ where: { id: userId } });
+    }
+    async getProfile(userId) {
+        const user = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ['userLanguages', 'userLanguages.language'],
+        });
+        if (!user)
+            throw new common_1.UnauthorizedException('Utilisateur non trouvé');
+        return this.sanitizeUser(user);
+    }
+    generateToken(user) {
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+        };
+        return this.jwtService.sign(payload);
+    }
+    sanitizeUser(user) {
+        const { password, ...result } = user;
+        return result;
     }
 };
 exports.AuthService = AuthService;

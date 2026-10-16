@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 import { Event } from './event.entity';
 
@@ -7,24 +14,27 @@ export class Feedback {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'int', default: 0 })
-  rating: number;        // 1 à 5
+  @Column({ type: 'int' }) // note de 1 à 5
+  rating: number;
 
   @Column({ type: 'text', nullable: true })
   comment: string;
 
-  @ManyToOne(() => Event, { onDelete: 'CASCADE' })
-  event: Event;
-
-  @Column()
+  @Column({ name: 'event_id' })
   eventId: number;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  user: User;
+  @Column({ name: 'author_id' })
+  authorId: number;
 
-  @Column()
-  userId: number;
-
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
+
+  // Relations
+  @ManyToOne(() => Event, (event) => event.feedbacks)
+  @JoinColumn({ name: 'event_id' })
+  event: Event;
+
+  @ManyToOne(() => User, (user) => user.feedbacks)
+  @JoinColumn({ name: 'author_id' })
+  author: User;
 }

@@ -17,11 +17,11 @@ let Feedback = class Feedback {
     id;
     rating;
     comment;
-    event;
     eventId;
-    user;
-    userId;
+    authorId;
     createdAt;
+    event;
+    author;
 };
 exports.Feedback = Feedback;
 __decorate([
@@ -29,7 +29,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Feedback.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'int', default: 0 }),
+    (0, typeorm_1.Column)({ type: 'int' }),
     __metadata("design:type", Number)
 ], Feedback.prototype, "rating", void 0);
 __decorate([
@@ -37,25 +37,27 @@ __decorate([
     __metadata("design:type", String)
 ], Feedback.prototype, "comment", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, { onDelete: 'CASCADE' }),
-    __metadata("design:type", event_entity_1.Event)
-], Feedback.prototype, "event", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'event_id' }),
     __metadata("design:type", Number)
 ], Feedback.prototype, "eventId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], Feedback.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'author_id' }),
     __metadata("design:type", Number)
-], Feedback.prototype, "userId", void 0);
+], Feedback.prototype, "authorId", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.CreateDateColumn)({ name: 'created_at' }),
     __metadata("design:type", Date)
 ], Feedback.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, (event) => event.feedbacks),
+    (0, typeorm_1.JoinColumn)({ name: 'event_id' }),
+    __metadata("design:type", event_entity_1.Event)
+], Feedback.prototype, "event", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.feedbacks),
+    (0, typeorm_1.JoinColumn)({ name: 'author_id' }),
+    __metadata("design:type", user_entity_1.User)
+], Feedback.prototype, "author", void 0);
 exports.Feedback = Feedback = __decorate([
     (0, typeorm_1.Entity)('feedbacks')
 ], Feedback);

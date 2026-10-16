@@ -12,13 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventLanguage = void 0;
 const typeorm_1 = require("typeorm");
 const event_entity_1 = require("./event.entity");
-const language_entity_1 = require("./language.entity");
 let EventLanguage = class EventLanguage {
     id;
-    event;
     eventId;
-    language;
     languageId;
+    event;
+    language;
 };
 exports.EventLanguage = EventLanguage;
 __decorate([
@@ -26,21 +25,21 @@ __decorate([
     __metadata("design:type", Number)
 ], EventLanguage.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, { onDelete: 'CASCADE' }),
-    __metadata("design:type", event_entity_1.Event)
-], EventLanguage.prototype, "event", void 0);
-__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], EventLanguage.prototype, "eventId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => language_entity_1.Language, { onDelete: 'CASCADE' }),
-    __metadata("design:type", language_entity_1.Language)
-], EventLanguage.prototype, "language", void 0);
-__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], EventLanguage.prototype, "languageId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, (event) => event.eventLanguages, { onDelete: 'CASCADE' }),
+    __metadata("design:type", event_entity_1.Event)
+], EventLanguage.prototype, "event", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)('Language', 'eventLanguages', { onDelete: 'CASCADE' }),
+    __metadata("design:type", Function)
+], EventLanguage.prototype, "language", void 0);
 exports.EventLanguage = EventLanguage = __decorate([
     (0, typeorm_1.Entity)('event_languages')
 ], EventLanguage);

@@ -3,9 +3,9 @@ import { Event } from './event.entity';
 export declare class Message {
     id: number;
     content: string;
-    event: Event;
     eventId: number;
-    sender: User;
-    senderId: number;
+    authorId: number;
     sentAt: Date;
+    event: Event;
+    author: User;
 }

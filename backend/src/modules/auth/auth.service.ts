@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -18,7 +22,9 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { email, password, firstName, lastName, role } = registerDto;
 
-    const existingUser = await this.usersRepository.findOne({ where: { email } });
+    const existingUser = await this.usersRepository.findOne({
+      where: { email },
+    });
     if (existingUser) {
       throw new ConflictException('Un utilisateur avec cet email existe déjà');
     }
@@ -33,10 +39,14 @@ export class AuthService {
       role: role || UserRole.USER,
     });
 
-    await this.usersRepository.save(user);
+    const savedUser = await this.usersRepository.save(user);
 
-    // On retourne directement le token après inscription
-    return this.login({ email, password });
+    const token = this.generateToken(savedUser);
+
+    return {
+      access_token: token,
+      user: this.sanitizeUser(savedUser),
+    };
   }
 
   async login(loginDto: LoginDto) {
@@ -47,27 +57,38 @@ export class AuthService {
       throw new UnauthorizedException('Email ou mot de passe incorrect');
     }
 
-    const payload = { 
-      sub: user.id, 
-      email: user.email, 
-      role: user.role 
-    };
-
-    const token = this.jwtService.sign(payload);
+    const token = this.generateToken(user);
 
     return {
       access_token: token,
-      user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-      },
+      user: this.sanitizeUser(user),
     };
   }
 
   async validateUser(userId: number): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id: userId } });
+  }
+
+  async getProfile(userId: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['userLanguages', 'userLanguages.language'],
+    });
+    if (!user) throw new UnauthorizedException('Utilisateur non trouvé');
+    return this.sanitizeUser(user);
+  }
+
+  private generateToken(user: User): string {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
+    return this.jwtService.sign(payload);
+  }
+
+  private sanitizeUser(user: User) {
+    const { password, ...result } = user as any;
+    return result;
   }
 }

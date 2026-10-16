@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserLanguage = exports.LanguageLevel = void 0;
 const typeorm_1 = require("typeorm");
+const swagger_1 = require("@nestjs/swagger");
 const user_entity_1 = require("./user.entity");
 const language_entity_1 = require("./language.entity");
 var LanguageLevel;
@@ -22,11 +23,11 @@ var LanguageLevel;
 })(LanguageLevel || (exports.LanguageLevel = LanguageLevel = {}));
 let UserLanguage = class UserLanguage {
     id;
-    user;
     userId;
-    language;
     languageId;
     level;
+    user;
+    language;
 };
 exports.UserLanguage = UserLanguage;
 __decorate([
@@ -34,25 +35,32 @@ __decorate([
     __metadata("design:type", Number)
 ], UserLanguage.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], UserLanguage.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'user_id' }),
     __metadata("design:type", Number)
 ], UserLanguage.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => language_entity_1.Language, { onDelete: 'CASCADE' }),
-    __metadata("design:type", language_entity_1.Language)
-], UserLanguage.prototype, "language", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'language_id' }),
     __metadata("design:type", Number)
 ], UserLanguage.prototype, "languageId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'enum', enum: LanguageLevel }),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: LanguageLevel,
+        default: LanguageLevel.BEGINNER,
+    }),
+    (0, swagger_1.ApiProperty)({ enum: LanguageLevel }),
     __metadata("design:type", String)
 ], UserLanguage.prototype, "level", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.userLanguages),
+    (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
+    __metadata("design:type", user_entity_1.User)
+], UserLanguage.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => language_entity_1.Language, (language) => language.userLanguages),
+    (0, typeorm_1.JoinColumn)({ name: 'language_id' }),
+    __metadata("design:type", language_entity_1.Language)
+], UserLanguage.prototype, "language", void 0);
 exports.UserLanguage = UserLanguage = __decorate([
     (0, typeorm_1.Entity)('user_languages')
 ], UserLanguage);

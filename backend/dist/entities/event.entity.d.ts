@@ -1,4 +1,9 @@
 import { User } from './user.entity';
+import { Participation } from './participation.entity';
+import { EventLanguage } from './event-language.entity';
+import { Photo } from './photo.entity';
+import { Message } from './message.entity';
+import { Feedback } from './feedback.entity';
 export declare class Event {
     id: number;
     title: string;
@@ -7,8 +12,13 @@ export declare class Event {
     address: string;
     eventDate: Date;
     maxParticipants: number;
-    host: User;
     hostId: number;
     createdAt: Date;
     updatedAt: Date;
+    host: User;
+    participations: Participation[];
+    eventLanguages: EventLanguage[];
+    photos: Photo[];
+    messages: Message[];
+    feedbacks: Feedback[];
 }

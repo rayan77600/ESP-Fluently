@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { Event } from './event.entity';
 
@@ -13,21 +21,29 @@ export class Participation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  user: User;
-
-  @Column()
+  @Column({ name: 'user_id' })
   userId: number;
 
-  @ManyToOne(() => Event, { onDelete: 'CASCADE' })
-  event: Event;
-
-  @Column()
+  @Column({ name: 'event_id' })
   eventId: number;
 
-  @Column({ type: 'enum', enum: ParticipationStatus, default: ParticipationStatus.PENDING })
+  @Column({
+    type: 'enum',
+    enum: ParticipationStatus,
+    default: ParticipationStatus.PENDING,
+  })
+  @ApiProperty({ enum: ParticipationStatus })
   status: ParticipationStatus;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'joined_at' })
   joinedAt: Date;
+
+  // Relations
+  @ManyToOne(() => User, (user) => user.participations)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => Event, (event) => event.participations)
+  @JoinColumn({ name: 'event_id' })
+  event: Event;
 }

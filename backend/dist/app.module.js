@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
+const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./entities/user.entity");
-const language_entity_1 = require("./entities/language.entity");
 const event_entity_1 = require("./entities/event.entity");
 const participation_entity_1 = require("./entities/participation.entity");
+const language_entity_1 = require("./entities/language.entity");
 const user_language_entity_1 = require("./entities/user-language.entity");
 const event_language_entity_1 = require("./entities/event-language.entity");
 const photo_entity_1 = require("./entities/photo.entity");
@@ -21,21 +21,31 @@ const message_entity_1 = require("./entities/message.entity");
 const feedback_entity_1 = require("./entities/feedback.entity");
 const notification_entity_1 = require("./entities/notification.entity");
 const auth_module_1 = require("./modules/auth/auth.module");
+const users_module_1 = require("./modules/users/users.module");
+const events_module_1 = require("./modules/events/events.module");
+const participations_module_1 = require("./modules/participations/participations.module");
+const languages_module_1 = require("./modules/languages/languages.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
-                url: process.env.DATABASE_URL,
+                host: process.env.DB_HOST || 'localhost',
+                port: 5432,
+                username: process.env.DB_USERNAME || 'fluently',
+                password: process.env.DB_PASSWORD || 'fluently123',
+                database: process.env.DB_NAME || 'fluently',
                 entities: [
                     user_entity_1.User,
-                    language_entity_1.Language,
                     event_entity_1.Event,
                     participation_entity_1.Participation,
+                    language_entity_1.Language,
                     user_language_entity_1.UserLanguage,
                     event_language_entity_1.EventLanguage,
                     photo_entity_1.Photo,
@@ -44,9 +54,13 @@ exports.AppModule = AppModule = __decorate([
                     notification_entity_1.Notification,
                 ],
                 synchronize: true,
-                logging: true,
+                logging: false,
             }),
             auth_module_1.AuthModule,
+            users_module_1.UsersModule,
+            events_module_1.EventsModule,
+            participations_module_1.ParticipationsModule,
+            languages_module_1.LanguagesModule,
         ],
     })
 ], AppModule);

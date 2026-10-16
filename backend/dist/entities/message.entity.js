@@ -16,11 +16,11 @@ const event_entity_1 = require("./event.entity");
 let Message = class Message {
     id;
     content;
-    event;
     eventId;
-    sender;
-    senderId;
+    authorId;
     sentAt;
+    event;
+    author;
 };
 exports.Message = Message;
 __decorate([
@@ -28,29 +28,31 @@ __decorate([
     __metadata("design:type", Number)
 ], Message.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)('text'),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Message.prototype, "content", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, { onDelete: 'CASCADE' }),
-    __metadata("design:type", event_entity_1.Event)
-], Message.prototype, "event", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'event_id' }),
     __metadata("design:type", Number)
 ], Message.prototype, "eventId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], Message.prototype, "sender", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'author_id' }),
     __metadata("design:type", Number)
-], Message.prototype, "senderId", void 0);
+], Message.prototype, "authorId", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.CreateDateColumn)({ name: 'sent_at' }),
     __metadata("design:type", Date)
 ], Message.prototype, "sentAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, (event) => event.messages),
+    (0, typeorm_1.JoinColumn)({ name: 'event_id' }),
+    __metadata("design:type", event_entity_1.Event)
+], Message.prototype, "event", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.messages),
+    (0, typeorm_1.JoinColumn)({ name: 'author_id' }),
+    __metadata("design:type", user_entity_1.User)
+], Message.prototype, "author", void 0);
 exports.Message = Message = __decorate([
     (0, typeorm_1.Entity)('messages')
 ], Message);

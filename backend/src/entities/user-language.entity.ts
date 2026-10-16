@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { Language } from './language.entity';
 
@@ -14,18 +21,26 @@ export class UserLanguage {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  user: User;
-
-  @Column()
+  @Column({ name: 'user_id' })
   userId: number;
 
-  @ManyToOne(() => Language, { onDelete: 'CASCADE' })
-  language: Language;
-
-  @Column()
+  @Column({ name: 'language_id' })
   languageId: number;
 
-  @Column({ type: 'enum', enum: LanguageLevel })
+  @Column({
+    type: 'enum',
+    enum: LanguageLevel,
+    default: LanguageLevel.BEGINNER,
+  })
+  @ApiProperty({ enum: LanguageLevel })
   level: LanguageLevel;
+
+  // Relations
+  @ManyToOne(() => User, (user) => user.userLanguages)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => Language, (language) => language.userLanguages)
+  @JoinColumn({ name: 'language_id' })
+  language: Language;
 }

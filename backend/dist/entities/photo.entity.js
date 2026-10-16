@@ -16,11 +16,11 @@ const event_entity_1 = require("./event.entity");
 let Photo = class Photo {
     id;
     url;
-    event;
     eventId;
-    user;
-    userId;
+    uploadedById;
     uploadedAt;
+    event;
+    uploadedBy;
 };
 exports.Photo = Photo;
 __decorate([
@@ -32,25 +32,27 @@ __decorate([
     __metadata("design:type", String)
 ], Photo.prototype, "url", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, { onDelete: 'CASCADE' }),
-    __metadata("design:type", event_entity_1.Event)
-], Photo.prototype, "event", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'event_id' }),
     __metadata("design:type", Number)
 ], Photo.prototype, "eventId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], Photo.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'uploaded_by_id' }),
     __metadata("design:type", Number)
-], Photo.prototype, "userId", void 0);
+], Photo.prototype, "uploadedById", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.CreateDateColumn)({ name: 'uploaded_at' }),
     __metadata("design:type", Date)
 ], Photo.prototype, "uploadedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => event_entity_1.Event, (event) => event.photos),
+    (0, typeorm_1.JoinColumn)({ name: 'event_id' }),
+    __metadata("design:type", event_entity_1.Event)
+], Photo.prototype, "event", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.photos),
+    (0, typeorm_1.JoinColumn)({ name: 'uploaded_by_id' }),
+    __metadata("design:type", user_entity_1.User)
+], Photo.prototype, "uploadedBy", void 0);
 exports.Photo = Photo = __decorate([
     (0, typeorm_1.Entity)('photos')
 ], Photo);

@@ -21,7 +21,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
     constructor(configService, authService) {
         const jwtSecret = configService.get('JWT_SECRET');
         if (!jwtSecret) {
-            throw new Error('JWT_SECRET is not defined in .env file');
+            throw new Error('JWT_SECRET non défini dans le fichier .env');
         }
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),

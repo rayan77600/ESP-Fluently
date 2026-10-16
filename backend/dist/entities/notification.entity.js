@@ -20,12 +20,12 @@ var NotificationType;
 })(NotificationType || (exports.NotificationType = NotificationType = {}));
 let Notification = class Notification {
     id;
-    user;
-    userId;
+    recipientId;
     message;
     type;
     isRead;
     createdAt;
+    recipient;
 };
 exports.Notification = Notification;
 __decorate([
@@ -33,29 +33,34 @@ __decorate([
     __metadata("design:type", Number)
 ], Notification.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, { onDelete: 'CASCADE' }),
-    __metadata("design:type", user_entity_1.User)
-], Notification.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ name: 'recipient_id' }),
     __metadata("design:type", Number)
-], Notification.prototype, "userId", void 0);
+], Notification.prototype, "recipientId", void 0);
 __decorate([
-    (0, typeorm_1.Column)('text'),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Notification.prototype, "message", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'enum', enum: NotificationType }),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: NotificationType,
+        default: NotificationType.SYSTEM,
+    }),
     __metadata("design:type", String)
 ], Notification.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: false }),
+    (0, typeorm_1.Column)({ name: 'is_read', default: false }),
     __metadata("design:type", Boolean)
 ], Notification.prototype, "isRead", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.CreateDateColumn)({ name: 'created_at' }),
     __metadata("design:type", Date)
 ], Notification.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.notifications),
+    (0, typeorm_1.JoinColumn)({ name: 'recipient_id' }),
+    __metadata("design:type", user_entity_1.User)
+], Notification.prototype, "recipient", void 0);
 exports.Notification = Notification = __decorate([
     (0, typeorm_1.Entity)('notifications')
 ], Notification);

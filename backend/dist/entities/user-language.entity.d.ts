@@ -8,9 +8,9 @@ export declare enum LanguageLevel {
 }
 export declare class UserLanguage {
     id: number;
-    user: User;
     userId: number;
-    language: Language;
     languageId: number;
     level: LanguageLevel;
+    user: User;
+    language: Language;
 }
