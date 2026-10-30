@@ -59,3 +59,42 @@ export interface RegisterPayload {
 export interface AuthResponse {
   accessToken: string;
 }
+
+export type ParticipationStatus = "PENDING" | "ACCEPTED" | "DECLINED";
+
+export interface UserPreview {
+  id: string;
+  firstName: string;
+  avatarUrl?: string | null;
+}
+
+export interface EventPhoto {
+  id: string;
+  url: string;
+  uploadedBy: UserPreview;
+}
+
+export interface EventMessage {
+  id: string;
+  content: string;
+  createdAt: string; // ISO 8601
+  user: UserPreview;
+}
+
+/** Détail complet d'un événement (GET /events/:id). */
+export interface EventDetail extends EventSummary {
+  participants: UserPreview[];
+  photos: EventPhoto[];
+  /** Derniers messages du chat de groupe (le temps réel arrive avec FRONT-05). */
+  recentMessages: EventMessage[];
+  /** Participation de l'utilisateur connecté, null s'il n'a pas rejoint ou n'est pas connecté. */
+  myParticipation: { status: ParticipationStatus } | null;
+}
+
+/** Réponse de POST /events/:id/join (BACK-06). */
+export interface Participation {
+  id: string;
+  eventId: string;
+  status: ParticipationStatus;
+  joinedAt: string;
+}

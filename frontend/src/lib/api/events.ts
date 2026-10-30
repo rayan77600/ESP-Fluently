@@ -1,6 +1,14 @@
-import type { EventFilters, EventSummary, Paginated } from "@/types";
+import type {
+  EventDetail,
+  EventFilters,
+  EventSummary,
+  Paginated,
+  Participation,
+} from "@/types";
 import { MOCK_EVENTS } from "@/lib/mocks/events";
-import { USE_MOCKS, apiFetch, buildQuery } from "./client";
+import { MOCK_EVENT_DETAILS } from "@/lib/mocks/eventDetails";
+import { getToken } from "@/lib/session";
+import { ApiError, USE_MOCKS, apiFetch, buildQuery } from "./client";
 
 export const DEFAULT_PAGE_SIZE = 12;
 
@@ -56,4 +64,44 @@ async function mockGetEvents(
     page: filters.page,
     limit: filters.limit,
   };
+}
+
+/** GET /events/:id — détail complet d'un événement. */
+export function getEvent(id: string, init?: RequestInit): Promise<EventDetail> {
+  if (USE_MOCKS) return mockGetEvent(id);
+  return apiFetch<EventDetail>(`/events/${encodeURIComponent(id)}`, init);
+}
+
+/** POST /events/:id/join — rejoindre un événement (BACK-06). */
+export function joinEvent(id: string): Promise<Participation> {
+  if (USE_MOCKS) return mockJoinEvent(id);
+  return apiFetch<Participation>(`/events/${encodeURIComponent(id)}/join`, { method: "POST" });
+}
+
+// Participations créées pendant la session en mode mock.
+const mockJoined = new Set<string>();
+
+async function mockGetEvent(id: string): Promise<EventDetail> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  const event = MOCK_EVENT_DETAILS[id];
+  if (!event) throw new ApiError(404, "Cet événement n'existe pas ou a été supprimé.");
+  if (!mockJoined.has(id)) return event;
+  return {
+    ...event,
+    participantsCount: event.participantsCount + 1,
+    myParticipation: { status: "ACCEPTED" },
+  };
+}
+
+async function mockJoinEvent(id: string): Promise<Participation> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  if (!getToken()) throw new ApiError(401, "Connectez-vous pour rejoindre cet événement.");
+  const event = MOCK_EVENT_DETAILS[id];
+  if (!event) throw new ApiError(404, "Cet événement n'existe pas ou a été supprimé.");
+  if (mockJoined.has(id)) throw new ApiError(409, "Vous participez déjà à cet événement.");
+  if (event.participantsCount >= event.maxParticipants) {
+    throw new ApiError(409, "Cet événement est complet.");
+  }
+  mockJoined.add(id);
+  return { id: `p-${id}`, eventId: id, status: "ACCEPTED", joinedAt: new Date().toISOString() };
 }

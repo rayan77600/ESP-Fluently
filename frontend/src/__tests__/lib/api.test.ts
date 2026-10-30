@@ -1,6 +1,6 @@
 import { ApiError, apiFetch, buildQuery } from "@/lib/api/client";
 import { MOCK_TAKEN_EMAIL, register } from "@/lib/api/auth";
-import { filterEvents, getEvents } from "@/lib/api/events";
+import { filterEvents, getEvent, getEvents, joinEvent } from "@/lib/api/events";
 import { MOCK_EVENTS } from "@/lib/mocks/events";
 import { setToken, clearToken, getToken } from "@/lib/session";
 
@@ -101,5 +101,36 @@ describe("filterEvents", () => {
 
     const sorted = filterEvents(MOCK_EVENTS, {});
     expect(sorted.map((e) => e.eventDate)).toEqual([...sorted.map((e) => e.eventDate)].sort());
+  });
+});
+
+describe("détail et participation (mocks)", () => {
+  afterEach(() => clearToken());
+
+  it("getEvent renvoie le détail ou une 404", async () => {
+    const event = await getEvent("1");
+    expect(event.participants).toHaveLength(event.participantsCount);
+    expect(event.myParticipation).toBeNull();
+    await expect(getEvent("inconnu")).rejects.toMatchObject({ status: 404 });
+  });
+
+  it("joinEvent exige d'être connecté", async () => {
+    await expect(joinEvent("1")).rejects.toMatchObject({ status: 401 });
+  });
+
+  it("joinEvent refuse un événement inconnu ou complet", async () => {
+    setToken("jwt");
+    await expect(joinEvent("inconnu")).rejects.toMatchObject({ status: 404 });
+    await expect(joinEvent("2")).rejects.toMatchObject({ status: 409 });
+  });
+
+  it("joinEvent inscrit une seule fois et met à jour le détail", async () => {
+    setToken("jwt");
+    const before = await getEvent("3");
+    await expect(joinEvent("3")).resolves.toMatchObject({ eventId: "3", status: "ACCEPTED" });
+    const after = await getEvent("3");
+    expect(after.myParticipation).toEqual({ status: "ACCEPTED" });
+    expect(after.participantsCount).toBe(before.participantsCount + 1);
+    await expect(joinEvent("3")).rejects.toMatchObject({ status: 409 });
   });
 });

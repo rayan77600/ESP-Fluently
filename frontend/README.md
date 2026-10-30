@@ -31,6 +31,7 @@ le développement en parallèle du backend. Renseignez l'URL du backend NestJS p
 |---|---|---|
 | FRONT-01 | `/register` | Inscription : validation client, appel `POST /auth/register`, gestion des erreurs API, redirection vers `/profile/setup` |
 | FRONT-02 | `/` | Découverte : liste d'événements, filtres (ville, langue, type, date) synchronisés dans l'URL, appel `GET /events`, états de chargement / erreur / vide, pagination |
+| FRONT-03 | `/events/[id]` | Détail d'un événement : hôte, langues, participants, derniers messages du chat, album photo, bouton « Rejoindre » (`POST /events/:id/join`) avec gestion complet / déjà inscrit / non connecté |
 
 En mode mock, l'adresse `deja.inscrit@fluently.app` simule une erreur 409 (compte existant).
 
@@ -40,6 +41,10 @@ En mode mock, l'adresse `deja.inscrit@fluently.app` simule une erreur 409 (compt
   Les erreurs suivent le format NestJS `{ statusCode, message: string | string[] }`.
 - `GET /events?city=&language=&type=&date=YYYY-MM-DD&page=&limit=` →
   `{ data: EventSummary[], total, page, limit }` (voir `src/types/index.ts`).
+- `GET /events/:id` → `EventDetail` (aperçu + `participants`, `photos`, `recentMessages`,
+  `myParticipation` de l'utilisateur connecté).
+- `POST /events/:id/join` (JWT requis) → `{ id, eventId, status, joinedAt }` avec `status`
+  `PENDING | ACCEPTED | DECLINED` (enum de l'UML). Erreurs attendues : 401, 404, 409 (complet ou déjà inscrit).
 
 ## Structure
 
