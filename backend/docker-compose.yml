@@ -43,6 +43,66 @@ services:
     depends_on:
       - postgres
 
+  conversation-service:
+    build:
+      context: ./ai-services/conversation-service
+    ports:
+      - "127.0.0.1:8001:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  recommendation-service:
+    build:
+      context: ./ai-services/recommendation-service
+    ports:
+      - "127.0.0.1:8002:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  matchmaking-service:
+    build:
+      context: ./ai-services/matchmaking-service
+    ports:
+      - "127.0.0.1:8003:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  event-generator-service:
+    build:
+      context: ./ai-services/event-generator-service
+    ports:
+      - "127.0.0.1:8004:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  feedback-analysis-service:
+    build:
+      context: ./ai-services/feedback-analysis-service
+    ports:
+      - "127.0.0.1:8005:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
 volumes:
   postgres_data:
   node_modules:   # déclare le volume nommé
