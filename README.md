@@ -1,111 +1,41 @@
-# Fluently – README en cours
+# Fluently
 
-## 🌍 Présentation du projet
-Fluently est une plateforme web & mobile facilitant l’apprentissage des langues à travers des rencontres réelles et locales.  
-Les utilisateurs peuvent créer ou rejoindre des événements pour pratiquer une langue avec d’autres passionnés.  
-Axée sur l’expression orale, Fluently simplifie la mise en relation, la participation et le partage autour des langues.
+An Epitech team project exploring local language practice through in-person events.
 
----
+## Repository status
 
-## 🎯 Objectifs
-- Faciliter la pratique réelle des langues
-- Structurer la participation aux événements
-- Offrir une expérience sociale motivante et mesurable
+The `main` branch contains planning and design documents. Backend implementation and container work are on [`chore/devops-docker-ia`](https://github.com/rayan77600/ESP-Fluently/tree/chore/devops-docker-ia), not merged into `main`.
 
----
+## Architecture on the development branch
 
-## 🏗 Architecture technique prévue
-**Frontend** : Next.js (Web Mobile)  
-**Backend** : Node.js + NestJS (TypeScript)  
-**Base de données** : PostgreSQL  
-**ORM** : Prisma  
+```text
+NestJS REST API -> TypeORM -> PostgreSQL
+Docker Compose: backend | PostgreSQL | pgAdmin | five FastAPI service scaffolds
+```
 
-### Pourquoi ces choix
-- **Next.js** : performance + rendu serveur + cohérence avec le backend  
-- **NestJS** : architecture modulaire, scalable, APIs propres  
-- **PostgreSQL** : robuste, adapté aux relations complexes  
-- **Prisma** : typage TypeScript + sécurité SQL  
+| Component | Verified source |
+| --- | --- |
+| Backend | TypeScript, NestJS 11, TypeORM, PostgreSQL, Swagger, Passport/JWT and bcrypt dependencies |
+| API modules | Authentication, users, events, participations and languages |
+| Service scaffolds | Conversation, recommendation, matchmaking, event generation and feedback analysis |
+| Containers | Backend Dockerfile, five per-service Dockerfiles and Docker Compose |
 
----
+The five Python/FastAPI services currently expose `/` and `/health` only. They have non-root container users, HTTP health checks and loopback-bound ports 8001–8005. AI inference and backend-to-AI business integration are not implemented in these services.
 
-## 🧱 Product Breakdown Structure (PBS) simplifié
+The original design mentions Next.js and Prisma. These are design choices, not the inspected backend stack, which uses TypeORM. No implemented frontend was found on the inspected backend branch.
 
-### Frontend
-- Authentification / Profil utilisateur  
-- Découverte des événements (filtres, cartes, liste)  
-- Création et participation à des événements  
-- Feedback / Chat / Album photo  
+## Source and documentation
 
-### Backend
-- Gestion utilisateurs  
-- Gestion événements  
-- Matching & recommandations  
-- Notifications  
+- [`Documents`](Documents): specifications, quality planning and contribution guidance on `main`.
+- [`BD_UML_Structure`](BD_UML_Structure): design and data modeling material.
+- [Backend source](https://github.com/rayan77600/ESP-Fluently/tree/chore/devops-docker-ia/backend/src): modules, entities, guards and DTOs.
+- [AI services](https://github.com/rayan77600/ESP-Fluently/tree/chore/devops-docker-ia/backend/ai-services): service scaffolds and container documentation.
+- [Compose configuration](https://github.com/rayan77600/ESP-Fluently/blob/chore/devops-docker-ia/backend/docker-compose.yml): development orchestration.
 
-### Admin Dashboard
-- Modération événements  
-- Gestion utilisateurs  
-- Analytics (engagement, rétention)
+## Execution and tests
 
----
+There is no application to start from `main`. Container instructions exist on the development branch, but container startup and full-stack integration were not executed during this review. NestJS unit and end-to-end test files are present there; no passing result or coverage figure is claimed.
 
-## 🛠 Work Breakdown Structure (WBS) simplifié
-- Planification & management de projet  
-- UI/UX design et prototypes  
-- Développement frontend  
-- Développement backend & APIs  
-- Dashboard admin  
-- QA / Tests fonctionnels & sécurité  
+## Team context
 
----
-
-## 👥 Organisation de l’équipe
-- **Frontend Lead – Milan** : UI, navigation, intégration API  
-- **Backend Lead – Fresnel** : DB schema, APIs, auth  
-- **Backend Feature – Matching** : recommandations, scoring  
-- **Admin Dashboard / Cybersécurité – Adrien** : modération & analytics  
-- **DevOps / QA – Rayan** : CI/CD, tests, monitoring  
-
----
-
-## 🚀 Roadmap
-**Phase 1 : Conception**  
-Définir vision, PBS, WBS, structure de l’équipe et outils.
-
-**Phase 2 : Setup environnement**  
-Initialisation GitHub, repos, Docker, dépendances front & back.
-
-**Phase 3 : Authentification**  
-Création des comptes utilisateurs, profils, JWT / permissions.
-
-**Phase 4 : CRUD principal**  
-Création, lecture, modification et suppression des événements, participation et feedback.
-
-**Phase 5 : Tests & déploiement**  
-Tests fonctionnels, sécurité, performance et déploiement staging.
-
----
-
-## 📊 KPIs Clés (indicatif)
-- Nombre d’événements créés  
-- Taux de participation  
-- Rétention utilisateur  
-- Engagement par ville  
-- Croissance hebdomadaire
-
----
-
-## 🔐 Sécurité & Conformité
-- Auth JWT & rôles (user/host/admin)  
-- Protection XSS / CSRF  
-- RGPD : consentement, export, suppression compte  
-
----
-
-## 🧪 Communication & Outils
-- **GitHub** : repository initialisé + tickets P1/P2/P3  
-- **Discord** : canaux Frontend / Backend / Admin / QA  
-- **Documents** : PBS / WBS / guides de spécifications
-
-
-
+Collaborative academic project. The original project plan assigns frontend work to Milan, backend leadership to Fresnel, administration/security to Adrien, and DevOps/QA to Rayan. These are planned responsibilities, not evidence of sole authorship or completion. See commit history for individual contributions.
