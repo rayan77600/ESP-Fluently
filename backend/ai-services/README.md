@@ -1,5 +1,18 @@
 # Microservices IA : développement avec Docker
 
+## Intégration continue
+
+Le workflow GitHub Actions `Fluently AI services CI` teste les cinq services en
+parallèle sur les push et pull requests qui modifient les services IA, le fichier
+Compose ou le workflow. Il peut aussi être lancé depuis l'onglet **Actions** avec
+**Run workflow**, lorsque le workflow est présent sur la branche par défaut.
+
+Pour chaque service, la CI valide la configuration Compose, construit son
+Dockerfile, démarre le conteneur et attend son healthcheck (120 secondes maximum).
+Elle vérifie ensuite que `/` et `/health` renvoient HTTP 200, le bon nom de service
+et les statuts `running` et `ok`. Les logs sont affichés en cas d'échec et les
+conteneurs sont nettoyés à la fin. Aucun secret ni service PostgreSQL n'est requis.
+
 Prérequis : Docker avec Docker Compose, moteur Linux démarré.
 Toutes les commandes ci-dessous se lancent depuis la racine du dépôt.
 
